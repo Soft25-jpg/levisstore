@@ -1,0 +1,59 @@
+<div class="gestion-container">
+  <h2>Gestión de Servicios</h2>
+
+  <!-- Mensaje de feedback -->
+  <p class="mensaje" *ngIf="mensaje">{{ mensaje }}</p>
+
+  <!-- Formulario para Crear/Editar Servicios (solo admin) -->
+  <form (ngSubmit)="guardarServicio()" #servicioForm="ngForm" class="formulario" *ngIf="esAdmin">
+    <div class="form-grid">
+      <input type="text" name="name" [(ngModel)]="servicio.name" placeholder="Nombre del servicio" required>
+      <input type="number" name="price" [(ngModel)]="servicio.price" placeholder="Precio" required>
+    </div>
+    
+    <textarea name="description" [(ngModel)]="servicio.description" placeholder="Descripción del servicio"></textarea>
+
+    <div class="file-input-wrapper">
+      <label for="file-input-servicio">Seleccionar Imagen</label>
+      <input id="file-input-servicio" type="file" (change)="onFileSelected($event)" accept="image/*">
+      <span *ngIf="selectedFile">{{ selectedFile.name }}</span>
+    </div>
+
+    <div class="form-buttons">
+      <button type="submit" class="btn-guardar" [disabled]="servicioForm.invalid">
+        {{ modoEdicion ? 'Actualizar Servicio' : 'Guardar Servicio' }}
+      </button>
+      <button type="button" (click)="cancelarEdicion()" class="btn-cancelar" *ngIf="modoEdicion">
+        Cancelar
+      </button>
+    </div>
+  </form>
+
+  <!-- Separador -->
+  <hr class="separator">
+
+  <!-- Galería de Servicios -->
+  <div class="galeria-servicios">
+    <div class="card-servicio" *ngFor="let s of servicios">
+      <img [src]="s.imageUrl" alt="{{ s.name }}" class="servicio-imagen" *ngIf="s.imageUrl">
+      <div class="card-body">
+        <h3>{{ s.name }}</h3>
+        <p class="descripcion">{{ s.description }}</p>
+        <div class="card-footer">
+          <span class="precio">S/. {{ s.price | number:'1.2-2' }}</span>
+        </div>
+      </div>
+      <div class="card-actions" *ngIf="esAdmin">
+        <button (click)="editarServicio(s)" class="btn-editar">Editar</button>
+        <button (click)="eliminarServicio(s._id)" class="btn-eliminar">Eliminar</button>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Sección de Contacto para Agendar -->
+  <div class="info-contacto">
+    <h3>¿Interesado en nuestros servicios?</h3>
+    <p>Para agendar una cita o solicitar más información, por favor visita nuestra página de <a routerLink="/contacto">Contacto</a>.</p>
+  </div>
+</div>
+

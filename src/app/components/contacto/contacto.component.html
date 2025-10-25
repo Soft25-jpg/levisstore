@@ -1,0 +1,33 @@
+<div class="contacto-container">
+  <h2>Contáctanos</h2>
+  <p>¿Tienes alguna pregunta o quieres solicitar un servicio? Déjanos un mensaje y te responderemos a la brevedad.</p>
+
+  <form (ngSubmit)="enviarMensaje()" #contactForm="ngForm" class="formulario-contacto">
+    <div class="form-group">
+      <label for="name">Nombre:</label>
+      <input type="text" id="name" name="name" [(ngModel)]="formData.name" required #name="ngModel">
+      <small class="error-message" *ngIf="name.invalid && (name.dirty || name.touched)">El nombre es requerido.</small>
+    </div>
+    <div class="form-group">
+      <label for="email">Correo Electrónico:</label>
+      <input type="email" id="email" name="email" [(ngModel)]="formData.email" required email #email="ngModel">
+      <small class="error-message" *ngIf="email.invalid && (email.dirty || email.touched)">
+        <span *ngIf="email.errors?.['required']">El correo es requerido.</span>
+        <span *ngIf="email.errors?.['email']">Por favor, introduce un correo válido.</span>
+      </small>
+    </div>
+    <div class="form-group">
+      <label for="message">Mensaje:</label>
+      <textarea id="message" name="message" [(ngModel)]="formData.message" rows="5" required minlength="10" #message="ngModel"></textarea>
+      <small class="error-message" *ngIf="message.invalid && (message.dirty || message.touched)">
+        <span *ngIf="message.errors?.['required']">El mensaje es requerido.</span>
+        <span *ngIf="message.errors?.['minlength']">El mensaje debe tener al menos 10 caracteres.</span>
+      </small>
+    </div>
+
+    <button type="submit" class="btn-enviar" [disabled]="contactForm.invalid">Enviar Mensaje</button>
+  </form>
+
+  <p class="mensaje-exito" *ngIf="mensaje">{{ mensaje }}</p>
+  <p class="mensaje-error" *ngIf="error">{{ error }}</p>
+</div>

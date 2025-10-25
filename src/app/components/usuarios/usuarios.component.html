@@ -1,0 +1,61 @@
+<div class="usuarios-container">
+  <h2>Gestión de Usuarios</h2>
+
+  <!-- Formulario -->
+  <form (ngSubmit)="guardarUsuario()" #usuarioForm="ngForm" class="formulario">
+    <input
+      type="text"
+      name="username"
+      placeholder="Usuario"
+      [(ngModel)]="usuario.username"
+      required
+    />
+    <input
+      type="email"
+      name="email"
+      placeholder="Correo"
+      [(ngModel)]="usuario.email"
+      required
+    />
+    <input
+      type="password"
+      name="password"
+      placeholder="Contraseña"
+      [(ngModel)]="usuario.password"
+      [required]="!modoEdicion"
+    />
+
+    <button type="submit" class="btn-guardar">
+      {{ modoEdicion ? 'Actualizar' : 'Agregar' }}
+    </button>
+    <button type="button" (click)="cancelarEdicion()" class="btn-cancelar" *ngIf="modoEdicion">
+      Cancelar
+    </button>
+  </form>
+
+  <!-- Tabla -->
+  <table>
+    <thead>
+      <tr>
+        <th>Usuario</th>
+        <th>Email</th>
+        <th>Rol</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let u of usuarios">
+        <td>{{ u.username }}</td>
+        <td>{{ u.email }}</td>
+        <td>{{ u.role }}</td>
+        <td>
+          <button (click)="editarUsuario(u)" class="btn-editar">✏️ Editar</button>
+          <button (click)="eliminarUsuario(u._id)" class="btn-eliminar">❌ Eliminar</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p class="mensaje" *ngIf="mensaje">{{ mensaje }}</p>
+</div>
+

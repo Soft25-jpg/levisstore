@@ -1,0 +1,130 @@
+<div class="login-container">
+  <h2 *ngIf="!modoRegistro">Iniciar Sesión</h2>
+  <h2 *ngIf="modoRegistro">Crear Cuenta</h2>
+
+  <form
+    *ngIf="!modoRegistro; else registroForm"
+    (ngSubmit)="onSubmit()"
+    #loginForm="ngForm"
+  >
+    <div class="form-group">
+      <label for="username">Usuario:</label>
+      <input
+        type="text"
+        id="username"
+        name="username"
+        required
+        [(ngModel)]="username"
+        placeholder="Ingresa tu usuario"
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="password">Contraseña:</label>
+      <input
+        type="password"
+        id="password"
+        name="password"
+        required
+        [(ngModel)]="password"
+        placeholder="Ingresa tu contraseña"
+      />
+    </div>
+
+    <button type="submit" class="btn-login" [disabled]="loginForm.invalid">
+      Ingresar
+    </button>
+
+    <p class="error" *ngIf="errorMessage">{{ errorMessage }}</p>
+
+    <p>
+      ¿No tienes cuenta?
+      <!-- 🔹 Se quitó href="#" -->
+      <a (click)="toggleModo()" style="cursor:pointer;">Regístrate</a>
+    </p>
+  </form>
+
+  <!-- 🔹 Formulario de registro -->
+  <ng-template #registroForm>
+    <form (ngSubmit)="onRegister()" #registerForm="ngForm">
+      <div class="form-group">
+        <label for="username">Usuario:</label>
+        <input
+          type="text"
+          id="username"
+          name="username"
+          required
+          minlength="3"
+          [(ngModel)]="username"
+          placeholder="Mínimo 3 caracteres"
+          #userCtrl="ngModel"
+        />
+        <small class="error" *ngIf="userCtrl.invalid && userCtrl.touched">
+          El nombre debe tener al menos 3 caracteres
+        </small>
+      </div>
+
+      <div class="form-group">
+        <label for="email">Correo electrónico:</label>
+        <input
+          type="email"
+          id="email"
+          name="email"
+          required
+          email
+          [(ngModel)]="email"
+          placeholder="ejemplo@correo.com"
+          #emailCtrl="ngModel"
+        />
+        <small class="error" *ngIf="emailCtrl.invalid && emailCtrl.touched">
+          Ingresa un correo válido
+        </small>
+      </div>
+
+      <div class="form-group">
+        <label for="password">Contraseña:</label>
+        <input
+          type="password"
+          id="password"
+          name="password"
+          required
+          minlength="6"
+          [(ngModel)]="password"
+          placeholder="Mínimo 6 caracteres"
+          #passCtrl="ngModel"
+        />
+        <small class="error" *ngIf="passCtrl.invalid && passCtrl.touched">
+          La contraseña debe tener al menos 6 caracteres
+        </small>
+      </div>
+
+      <div class="form-group">
+        <label for="confirmPassword">Confirmar Contraseña:</label>
+        <input
+          type="password"
+          id="confirmPassword"
+          name="confirmPassword"
+          required
+          [(ngModel)]="confirmPassword"
+          placeholder="Repite la contraseña"
+        />
+      </div>
+
+      <button
+        type="submit"
+        class="btn-login"
+        [disabled]="registerForm.invalid || password !== confirmPassword"
+      >
+        Registrarse
+      </button>
+
+      <p class="error" *ngIf="errorMessage">{{ errorMessage }}</p>
+
+      <p>
+        ¿Ya tienes cuenta?
+        <!-- 🔹 Se quitó href="#" -->
+        <a (click)="toggleModo()" style="cursor:pointer;">Inicia sesión</a>
+      </p>
+    </form>
+  </ng-template>
+</div>

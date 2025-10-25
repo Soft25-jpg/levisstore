@@ -1,0 +1,14 @@
+<nav class="navbar">
+  <div class="navbar-brand">
+    <a routerLink="/productos">Levis Store</a>
+  </div>
+  <ul class="navbar-links">
+    <li><a routerLink="/productos">Productos</a></li>
+    <li *ngIf="esAdmin"><a routerLink="/usuarios">Usuarios</a></li>
+    <li><a routerLink="/servicios">Servicios</a></li>
+    <li><a routerLink="/contacto">Contacto</a></li>
+  </ul>
+  <div class="navbar-logout">
+    <button (click)="cerrarSesion()" class="btn-logout">Cerrar Sesión</button>
+  </div>
+</nav>

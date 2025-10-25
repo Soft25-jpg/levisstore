@@ -1,0 +1,11 @@
+/* You can add global styles to this file, and also import other style files */
+
+html, body {
+  height: 100%;
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+  background-color: #f5f3f7; /* Un color de fondo suave por si la imagen no carga */
+  background-image: url('assets/fondo.png'); /* Ruta a tu imagen */
+  background-repeat: repeat; /* Esto hará que el patrón se repita */
+  background-size: auto; /* O puedes usar un tamaño específico como '200px' */
+}

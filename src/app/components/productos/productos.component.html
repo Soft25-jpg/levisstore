@@ -1,0 +1,56 @@
+<div class="gestion-container">
+  <h2>Gestión de Productos</h2>
+
+  <!-- Mensaje de feedback -->
+  <p class="mensaje" *ngIf="mensaje">{{ mensaje }}</p>
+
+  <!-- Formulario para Crear/Editar Productos -->
+  <form (ngSubmit)="guardarProducto()" #productoForm="ngForm" class="formulario" *ngIf="esAdmin">
+    <div class="form-grid">
+      <input type="text" name="name" [(ngModel)]="producto.name" placeholder="Nombre del producto" required>
+      <input type="number" name="price" [(ngModel)]="producto.price" placeholder="Precio" required>
+      <input type="number" name="stock" [(ngModel)]="producto.stock" placeholder="Stock disponible" required>
+      <input type="text" name="category" [(ngModel)]="producto.category" placeholder="Categoría">
+    </div>
+    
+    <textarea name="description" [(ngModel)]="producto.description" placeholder="Descripción del producto"></textarea>
+
+    <div class="file-input-wrapper">
+      <label for="file-input">Seleccionar Imagen</label>
+      <input id="file-input" type="file" (change)="onFileSelected($event)" accept="image/*">
+      <span *ngIf="selectedFile">{{ selectedFile.name }}</span>
+    </div>
+
+    <div class="form-buttons">
+      <button type="submit" class="btn-guardar" [disabled]="productoForm.invalid">
+        {{ modoEdicion ? 'Actualizar Producto' : 'Guardar Producto' }}
+      </button>
+      <button type="button" (click)="cancelarEdicion()" class="btn-cancelar" *ngIf="modoEdicion">
+        Cancelar
+      </button>
+    </div>
+  </form>
+
+  <!-- Separador -->
+  <hr class="separator">
+
+  <!-- Galería de Productos -->
+  <div class="galeria-productos">
+    <div class="card-producto" *ngFor="let p of productos">
+      <img [src]="p.imageUrl" alt="{{ p.name }}" class="producto-imagen" *ngIf="p.imageUrl">
+      <div class="card-body">
+        <h3>{{ p.name }}</h3>
+        <p class="descripcion">{{ p.description }}</p>
+        <div class="card-footer">
+          <span class="precio">S/. {{ p.price | number:'1.2-2' }}</span>
+          <span class="stock">Stock: {{ p.stock }}</span>
+        </div>
+      </div>
+      <div class="card-actions" *ngIf="esAdmin">
+        <button (click)="editarProducto(p)" class="btn-editar">Editar</button>
+        <button (click)="eliminarProducto(p._id)" class="btn-eliminar">Eliminar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
